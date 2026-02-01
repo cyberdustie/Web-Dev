@@ -1,0 +1,110 @@
+:root {
+  --bg: #0b0f1a;
+  --glass: rgba(255,255,255,0.1);
+  --neon: #8b5cf6;
+  --text: #e5e7eb;
+}
+
+body.light {
+  --bg: #e5e7eb;
+  --glass: rgba(0,0,0,0.1);
+  --neon: #4f46e5;
+  --text: #111827;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1f2933, var(--bg));
+  font-family: "Segoe UI", sans-serif;
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.app {
+  width: 420px;
+  backdrop-filter: blur(20px);
+  background: var(--glass);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 0 30px var(--neon);
+}
+
+h1 {
+  text-align: center;
+  color: var(--neon);
+  text-shadow: 0 0 10px var(--neon);
+}
+
+.toggle {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.toggle button {
+  background: transparent;
+  border: 1px solid var(--neon);
+  color: var(--neon);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+input, textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+
+.add-btn {
+  width: 100%;
+  background: var(--neon);
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.post {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(0,0,0,0.3));
+  box-shadow: 0 0 15px rgba(139,92,246,0.5);
+}
+
+.post h3 {
+  margin: 0 0 5px;
+  color: #f9fafb;
+}
+
+.post p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.post button {
+  background: #ef4444;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  margin-top: 8px;
+}
