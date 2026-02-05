@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stopwatch with Lap Counter</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #121212;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    .box {
+      background: #1f1f1f;
+      padding: 25px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    #display {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .start { background: #4caf50; color: #fff; }
+    .pause { background: #ff9800; color: #fff; }
+    .reset { background: #f44336; color: #fff; }
+    .lap { background: #2196f3; color: #fff; }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+      max-height: 120px;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    li {
+      border-bottom: 1px solid #333;
+      padding: 4px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Stopwatch</h2>
+  <div id="display">00:00:00</div>
+
+  <button class="start" onclick="start()">Start</button>
+  <button class="pause" onclick="pause()">Pause</button>
+  <button class="reset" onclick="reset()">Reset</button>
+  <button class="lap" onclick="lap()">Lap</button>
+
+  <ul id="laps"></ul>
+</div>
+
+<script>
+  let timer = null;
+  let milliseconds = 0;
+  let lapCount = 0;
+
+  function update() {
+    milliseconds += 10;
+
+    let ms = Math.floor((milliseconds % 1000) / 10);
+    let sec = Math.floor((milliseconds / 1000) % 60);
+    let min = Math.floor(milliseconds / 60000);
+
+    document.getElementById("display").textContent =
+      String(min).padStart(2, "0") + ":" +
+      String(sec).padStart(2, "0") + ":" +
+      String(ms).padStart(2, "0");
+  }
+
+  function start() {
+    if (timer) return;
+    timer = setInterval(update, 10);
+  }
+
+  function pause() {
+    clearInterval(timer);
+    timer = null;
+  }
+
+  function reset() {
+    pause();
+    milliseconds = 0;
+    lapCount = 0;
+    document.getElementById("laps").innerHTML = "";
+    document.getElementById("display").textContent = "00:00:00";
+  }
+
+  function lap() {
+    lapCount++;
+    const li = document.createElement("li");
+    li.textContent = `Lap ${lapCount}: ${document.getElementById("display").textContent}`;
+    document.getElementById("laps").appendChild(li);
+  }
+</script>
+
+</body>
+</html>
