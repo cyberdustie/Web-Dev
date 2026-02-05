@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pomodoro Timer with Lap Counter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e2f;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #2b2b40;
+      padding: 25px;
+      border-radius: 10px;
+      width: 320px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    #mode {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #aaa;
+    }
+
+    #timer {
+      font-size: 48px;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .start { background: #4caf50; color: #fff; }
+    .pause { background: #ff9800; color: #fff; }
+    .reset { background: #f44336; color: #fff; }
+    .lap { background: #2196f3; color: #fff; }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 15px;
+      max-height: 120px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    li {
+      font-size: 14px;
+      padding: 4px 0;
+      border-bottom: 1px solid #444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Pomodoro Timer</h1>
+    <div id="mode">Work Session</div>
+    <div id="timer">25:00</div>
+
+    <div>
+      <button class="start" onclick="startTimer()">Start</button>
+      <button class="pause" onclick="pauseTimer()">Pause</button>
+      <button class="reset" onclick="resetTimer()">Reset</button>
+      <button class="lap" onclick="addLap()">Lap</button>
+    </div>
+
+    <ul id="laps"></ul>
+  </div>
+
+  <script>
+    let workTime = 25 * 60;
+    let breakTime = 5 * 60;
+    let timeLeft = workTime;
+    let timerInterval = null;
+    let isWork = true;
+    let lapCount = 0;
+
+    const timerDisplay = document.getElementById("timer");
+    const modeDisplay = document.getElementById("mode");
+    const lapsList = document.getElementById("laps");
+
+    function updateDisplay() {
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+      timerDisplay.textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+    }
+
+    function startTimer() {
+      if (timerInterval) return;
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateDisplay();
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          switchMode();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      isWork = true;
+      timeLeft = workTime;
+      modeDisplay.textContent = "Work Session";
+      lapsList.innerHTML = "";
+      lapCount = 0;
+      updateDisplay();
+    }
+
+    function switchMode() {
+      isWork = !isWork;
+      timeLeft = isWork ? workTime : breakTime;
+      modeDisplay.textContent = isWork ? "Work Session" : "Break Time";
+      startTimer();
+    }
+
+    function addLap() {
+      lapCount++;
+      const li = document.createElement("li");
+      li.textContent = `Lap ${lapCount}: ${timerDisplay.textContent}`;
+      lapsList.appendChild(li);
+    }
+
+    updateDisplay();
+  </script>
+
+</body>
+</html>
